@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from api.routes.v1.endpoints import chat, auth, workflow, events
+from routes.v1.endpoints import chat, auth, workflow, events
 
 
 api_router = APIRouter()

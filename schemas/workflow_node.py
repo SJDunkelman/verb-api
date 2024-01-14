@@ -1,5 +1,5 @@
 from pydantic import Field
-from api.schemas.node import NodeModel
+from schemas.node import NodeModel
 
 
 class WorkflowNode(NodeModel):

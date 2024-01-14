@@ -1,5 +1,5 @@
-from api.db import supabase_client
-from api.models.in_app_message import InAppMessage
+from db import supabase_client
+from models.in_app_message import InAppMessage
 
 
 def get_previous_in_app_messages(workflow_id: str, limit: int = 20, offset: int = 0) -> list[InAppMessage] | None:

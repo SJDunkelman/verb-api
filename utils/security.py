@@ -1,8 +1,8 @@
 from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException
 from gotrue.errors import AuthApiError
-from api.db import supabase_client
-from api.dependencies import get_db
+from db import supabase_client
+from dependencies import get_db
 from gotrue.types import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")

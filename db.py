@@ -1,5 +1,5 @@
 from supabase import create_client, Client
-from api.config import settings
+from config import settings
 import redis
 
 

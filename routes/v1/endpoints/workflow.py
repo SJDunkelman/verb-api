@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, HTTPException, status, WebSocket
-from api.dependencies import get_db
-from api.utils.security import get_current_user
-from api.models.workflow import WorkflowInDB
-from api.models.workflow_template import WorkflowTemplateInDB
-from api import schemas
+from dependencies import get_db
+from utils.security import get_current_user
+from models.workflow import WorkflowInDB
+from models.workflow_template import WorkflowTemplateInDB
+import schemas
 from uuid import UUID
 from postgrest.exceptions import APIError
 

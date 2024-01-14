@@ -2,15 +2,15 @@ import logging
 from fastapi import APIRouter, WebSocket, Depends, Cookie, Query
 from starlette.websockets import WebSocketDisconnect
 from supabase import Client as SupabaseClient
-from api.utils.security import get_user_from_token
-from api.dependencies import get_redis, get_db
+from utils.security import get_user_from_token
+from dependencies import get_redis, get_db
 import json
 import asyncio
 from uuid import uuid4
 from redis import Redis
-from api.utils.redis_utils import publish_message, subscribe_to_channel
-from api.utils.in_app_messaging import get_previous_in_app_messages
-from api.models.in_app_message import InAppMessage
+from utils.redis_utils import publish_message, subscribe_to_channel
+from utils.in_app_messaging import get_previous_in_app_messages
+from models.in_app_message import InAppMessage
 
 router = APIRouter()
 

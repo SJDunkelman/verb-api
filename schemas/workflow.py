@@ -1,7 +1,7 @@
 from pydantic import BaseModel, UUID4
 from datetime import datetime
-from api.schemas.workflow_node import WorkflowNode
-from api.schemas.edge import Edge
+from schemas.workflow_node import WorkflowNode
+from schemas.edge import Edge
 from shared_enum.workflow_stage import WorkflowStage
 
 

@@ -1,9 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends, Response
 from gotrue.errors import AuthApiError
 from postgrest.exceptions import APIError
-from api.dependencies import get_db
-from api.schemas.auth import UserLogin, UserLoginResponse
-from api.models.workflow import WorkflowInDB
+from dependencies import get_db
+from schemas.auth import UserLogin, UserLoginResponse
+from models.workflow import WorkflowInDB
 
 
 router = APIRouter()

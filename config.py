@@ -2,11 +2,6 @@ import os
 from pathlib import Path
 from functools import lru_cache
 
-# Load environment variables
-if os.getenv("FASTAPI_ENV") == "development":
-    from dotenv import load_dotenv
-    load_dotenv(Path(__file__).parent.parent / '.env')
-
 
 class BaseConfig:
     # Paths
@@ -24,10 +19,6 @@ class BaseConfig:
 
     # Celery task queue
     REDIS_URL: str = os.environ.get("REDIS_URL", "redis://127.0.0.1:6379/0")
-    CELERY_BROKER_URL: str = REDIS_URL
-    CELERY_RESULT_BACKEND: str = REDIS_URL
-
-    WS_MESSAGE_QUEUE: str = os.environ.get("WS_MESSAGE_QUEUE", "redis://127.0.0.1:6379/0")
 
 
 class DevelopmentConfig(BaseConfig):
@@ -36,8 +27,7 @@ class DevelopmentConfig(BaseConfig):
 
 
 class ProductionConfig(BaseConfig):
-    BROKER_URL: str = os.getenv("REDIS_URL")
-    RESULT_BACKEND: str = os.getenv("REDIS_URL")
+    pass
 
 
 class TestingConfig(BaseConfig):

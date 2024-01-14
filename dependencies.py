@@ -1,4 +1,4 @@
-from api.db import supabase_client, redis_connection_pool
+from db import supabase_client, redis_connection_pool
 import redis
 
 

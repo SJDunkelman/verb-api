@@ -1,5 +1,5 @@
 from pydantic import BaseModel, UUID4, Field
-from api.schemas.edge_rule import EdgeRule
+from schemas.edge_rule import EdgeRule
 
 
 class Edge(BaseModel):

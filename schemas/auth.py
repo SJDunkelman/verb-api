@@ -1,5 +1,5 @@
 from pydantic import BaseModel, UUID4
-from api.models.workflow import WorkflowInDB
+from models.workflow import WorkflowInDB
 
 
 class AuthResponseBase(BaseModel):
