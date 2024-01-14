@@ -20,7 +20,7 @@ def create_app() -> FastAPI:
     from routes.v1.api import api_router
     api_app.include_router(api_router)
 
-    @app.get("/healthcheck", tags=['devops'])
+    @api_app.get("/healthcheck", tags=['devops'])
     async def get_healthcheck():
         return {"status": "ok"}
 
