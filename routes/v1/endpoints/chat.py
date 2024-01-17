@@ -1,6 +1,6 @@
 import logging
-from fastapi import APIRouter, WebSocket, Depends, Cookie, Query
-from starlette.websockets import WebSocketDisconnect
+from fastapi import APIRouter, WebSocket, Depends, Query
+from starlette.websockets import WebSocketDisconnect, WebSocketState
 from supabase import Client as SupabaseClient
 from utils.security import get_user_from_token
 from dependencies import get_redis, get_db
@@ -73,13 +73,18 @@ async def ws_chat_to_workflow(websocket: WebSocket,
                     # Generate a unique message ID (if not already provided in message_data)
                     message_id = message_data.get("message_id", str(uuid4()))
 
+                    # Get the input_workflow_node_id based on the specific workflow each time
+                    # TODO: Make the node_id dynamic
+                    input_workflow_node_result = db.table('workflow_node').select('id').eq('workflow_id', workflow_id).eq('node_id', '9bc7ba9c-2073-4362-b823-376633a2cd75').single().execute()
+                    input_workflow_node_id = input_workflow_node_result.data['id']
+
                     # Publish message to Redis channel and save to DB
                     publish_message(redis_client, "messages", {
                         "workflow_id": workflow_id,
                         "user_id": user.id,
                         "message": message_data["message"],
                         "message_id": message_id,
-                        "input_workflow_node_id": "62817448-458c-4c3d-a2e8-5f8ce6606b7f",  # TODO: Get the input_workflow_node_id based on the specific workflow each time
+                        "input_workflow_node_id": input_workflow_node_id,
                     })
                     db.table('in_app_message').insert({
                         "id": message_id,
@@ -119,10 +124,15 @@ async def ws_chat_to_workflow(websocket: WebSocket,
                 task.cancel()
 
     except WebSocketDisconnect:
-        await websocket.close()
+        pass
     finally:
         # Clean up resources (if needed)
-        pass
+        if websocket.application_state != WebSocketState.DISCONNECTED:
+            try:
+                await websocket.close()
+            except Exception as e:
+                # Log unexpected errors during close
+                logging.error(f"Error closing WebSocket: {e}")
 
 
 @router.get("/{workflow_id}/history", response_model=list[InAppMessage])
