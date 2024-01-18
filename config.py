@@ -21,8 +21,8 @@ class BaseConfig:
     # Storage buckets
 
     # Celery task queue
-    # REDIS_URL: str = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
-    REDIS_URL: str = "redis://localhost:6379/0"
+    REDIS_URL: str = os.environ.get("REDIS_URL")
+    # REDIS_URL: str = "redis://localhost:6379/0"
 
 
 class DevelopmentConfig(BaseConfig):
