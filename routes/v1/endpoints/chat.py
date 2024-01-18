@@ -86,6 +86,7 @@ async def ws_chat_to_workflow(websocket: WebSocket,
                         "message_id": message_id,
                         "input_workflow_node_id": input_workflow_node_id,
                     })
+
                     db.table('in_app_message').insert({
                         "id": message_id,
                         "workflow_id": workflow_id,
