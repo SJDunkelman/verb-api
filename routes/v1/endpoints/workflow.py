@@ -35,6 +35,63 @@ async def get_all_workflow_templates(db=Depends(get_db)):
     return workflow_templates
 
 
+# @router.get('/{workflow_id}/diagram', response_model=schemas.WorkflowDiagram)
+# async def get_workflow_diagram(workflow_id: UUID, db=Depends(get_db), user=Depends(get_current_user)):
+#     workflow = db.table('workflow').select('*').eq('id', workflow_id).execute()
+#     if not workflow.data:
+#         raise HTTPException(status_code=404, detail="Workflow not found")
+#     if workflow['created_by_user_id'] != user.id:
+#         raise HTTPException(status_code=403, detail="User does not have access to this workflow")
+#     workflow_nodes = db.table('workflow_node').select('*').eq('workflow_id', workflow_id).execute()
+#     workflow_node_edges = db.table('workflow_node_edge').select('*').eq('workflow_id', workflow_id).execute()
+#     workflow_edge_rules = db.table('workflow_edge_rule').select('*').eq('workflow_id', workflow_id).execute()
+#     workflow_pathways = db.table('workflow_pathway_sequence').select('*').eq('workflow_id', workflow_id).execute()
+#
+#     nodes = [
+#         schemas.WorkflowNode(id=node['id'],
+#                              node_id=node['node_id'],
+#                              name=node['name'],
+#                              description=node['description'],
+#                              base_type=node['base_type'],
+#                              class_name=node['class_name'],
+#                              context_items={})
+#         for node in workflow_nodes.data
+#     ]
+#
+#     edges_dict = {edge['id']: schemas.Edge(id=edge['id'],
+#                                            from_node_id=edge['from_node_id'],
+#                                            to_node_id=edge['to_node_id'])
+#                   for edge in workflow_node_edges.data}
+#
+#     for edge_rule in workflow_edge_rules.data:
+#         if 'rule_id' in edge_rule and edge_rule['rule_id']:
+#             # Check if the edge has an associated rule_id
+#             if edge_rule['edge_id'] in edges_dict:
+#                 edge_rule_obj = schemas.EdgeRule(id=edge_rule['rule_id'],
+#                                                  class_name=edge_rule['rule_class_name'],
+#                                                  description=edge_rule['rule_description'],
+#                                                  rule_order=edge_rule['rule_order'])
+#                 edges_dict[edge_rule['edge_id']].rules.append(edge_rule_obj)
+#
+#     edges = list(edges_dict.values())
+#
+#     pathways = [
+#         schemas.WorkflowPathway(id=pathway['id'],
+#                                 pathway_id=pathway['pathway_id'],
+#                                 node_id=pathway['node_id'],
+#                                 sequence_order=pathway['sequence_order'])
+#         for pathway in workflow_pathways.data
+#     ]
+#
+#     return schemas.WorkflowDiagram(**{
+#         "id": workflow_id,
+#         "name": workflow['name'],
+#         "nodes": nodes,
+#         "edges": edges,
+#         "pathways": pathways
+#     })
+
+
 @router.get("/{workflow_id}", response_model=WorkflowInDB)
 async def get_workflow(workflow_id: UUID, db=Depends(get_db), user=Depends(get_current_user)):
     workflow = db.table('workflow').select('*').eq('id', workflow_id).execute()

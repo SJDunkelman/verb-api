@@ -19,6 +19,7 @@ class BaseConfig:
     SUPABASE_ANON_KEY: str = os.environ.get("SUPABASE_ANON_KEY")
 
     # Storage buckets
+    WORKFLOW_NODE_OUTPUT_BUCKET = "workflow_node_output"
 
     # Celery task queue
     REDIS_URL: str = os.environ.get("REDIS_URL")
