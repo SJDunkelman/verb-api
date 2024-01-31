@@ -35,6 +35,8 @@ async def complete_workflow(workflow_id: str,
         'role': MessageRole.assistant
     }]).execute()
     new_message = InAppMessage(**message_result.data[0])
+
+    # Send it to the workflow chat channel so it is to the user by the open websocket connection
     workflow_chat_channel = f"workflow:{workflow_id}:chat"
     publish_message(redis_client, workflow_chat_channel, new_message.model_dump(mode='json'))
 
