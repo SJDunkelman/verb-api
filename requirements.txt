@@ -1,9 +1,9 @@
-fastapi~=0.109.0
+fastapi==0.109.0
 gotrue==2.1.0
 redis==5.0.1
 postgrest==0.13.0
 pydantic~=2.5.3
 python-dotenv==1.0.0
 supabase==2.3.0
-starlette==0.27.0
+starlette==0.36.0
 storage3~=0.7.0
