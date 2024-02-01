@@ -6,4 +6,5 @@ class WorkflowNodeOutput(BaseModel):
     id: UUID4
     created_at: datetime
     note: str | None = None
+    items: int | None = None
     workflow_node_id: UUID4

@@ -19,9 +19,9 @@ from utils.security import get_current_user
 router = APIRouter()
 
 
-@router.post("/{workflow_node_id}/output", response_model=list[schemas.WorkflowNodeOutput])
+@router.get("/{workflow_node_id}/output", response_model=list[schemas.WorkflowNodeOutput])
 async def get_node_output(workflow_node_id: str,
-                          # user=Depends(get_current_user),
+                          user=Depends(get_current_user),
                           db: SupabaseClient = Depends(get_db)
                           ) -> list[schemas.WorkflowNodeOutput]:
     # Check node is an output node
@@ -40,7 +40,7 @@ async def get_node_output(workflow_node_id: str,
 
 @router.get("/output/{output_file_id}")
 async def get_output_file(output_file_id: str,
-                          # user=Depends(get_current_user),
+                          user=Depends(get_current_user),
                           db: SupabaseClient = Depends(get_db)):
     # Get output file details
     output_file_result = db.table('workflow_node_output_file').select('*').eq('id', output_file_id).execute()
