@@ -7,3 +7,4 @@ python-dotenv==1.0.0
 supabase==2.3.0
 starlette~=0.35.0
 storage3~=0.7.0
+uvicorn
