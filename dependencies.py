@@ -8,4 +8,3 @@ def get_db():
 
 def get_redis():
     return redis.Redis(connection_pool=redis_connection_pool)
-

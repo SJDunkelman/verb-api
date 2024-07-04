@@ -6,9 +6,7 @@ from config import settings
 def create_app() -> FastAPI:
     api_app = FastAPI(title=settings.API_NAME, description=settings.DESCRIPTION)
 
-    origins = [
-        "*"
-    ]
+    origins = ["*"]
     api_app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,
@@ -18,9 +16,10 @@ def create_app() -> FastAPI:
     )
 
     from routes.v1.api import api_router
+
     api_app.include_router(api_router)
 
-    @api_app.get("/healthcheck", tags=['devops'])
+    @api_app.get("/healthcheck", tags=["devops"])
     async def get_healthcheck():
         return {"status": "ok"}
 

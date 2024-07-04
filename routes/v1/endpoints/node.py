@@ -19,7 +19,7 @@ from utils.security import get_current_user
 router = APIRouter()
 
 
-@router.get("/{workflow_node_id}/output", response_model=list[schemas.WorkflowNodeOutput])
+@router.get("/{workflow_node_id}/output/all", response_model=list[schemas.WorkflowNodeOutput])
 async def get_node_output(workflow_node_id: str,
                           user=Depends(get_current_user),
                           db: SupabaseClient = Depends(get_db)
@@ -34,16 +34,19 @@ async def get_node_output(workflow_node_id: str,
     output_results = db.table('workflow_node_output_file').select('*').eq('workflow_node_id',
                                                                           workflow_node_id).execute()
     if not output_results.data:
-        raise HTTPException(status_code=400, detail="No output found")
+        return []
     return [schemas.WorkflowNodeOutput(**output) for output in output_results.data]
 
 
-@router.get("/output/{output_file_id}")
+@router.get("/file/{output_file_id}")
 async def get_output_file(output_file_id: str,
                           user=Depends(get_current_user),
                           db: SupabaseClient = Depends(get_db)):
     # Get output file details
     output_file_result = db.table('workflow_node_output_file').select('*').eq('id', output_file_id).execute()
+    if not output_file_result.data:
+        raise HTTPException(status_code=404, detail="Output file not found")
+
     output_file = output_file_result.data[0]
     file_path = f"{output_file['workflow_node_id']}/{output_file['file_name']}{output_file['extension']}"
     user_file_name = f"{output_file['user_friendly_file_name']}{output_file['extension']}"
